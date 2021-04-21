@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<flow name="async-twoFlow" doc:id="7ef76ec6-3e00-4d84-90dc-8c331ce87844" >
+		<http:listener doc:name="Listener" doc:id="766f31b3-8ac6-44f8-918a-e17ba3987e2c" config-ref="HTTP_Listener_config" path="/asynctwo"/>
+		<logger level="INFO" doc:name="Logger" doc:id="03babaf7-b403-47d5-80af-6780459a5c06" message="Outside asynch flow"/>
+		<async doc:name="Async" doc:id="38a60ae4-6d0d-4276-a5f6-3421d53152bf" >
+			<logger level="INFO" doc:name="Logger" doc:id="12e6a5bd-fe96-460f-a5d7-f23ae8dc537f" message="1"/>
+			<logger level="INFO" doc:name="Logger" doc:id="b31e13f9-6a88-483d-8f02-3b4fcc2acfeb" message="2"/>
+			<logger level="INFO" doc:name="Logger" doc:id="b7c742fa-d9f0-40c8-9e4a-e9a952c91459" message="3"/>
+			<logger level="INFO" doc:name="Logger" doc:id="a034338e-48c0-4b0e-bca2-6f591ff47cee" message="4"/>
+			<logger level="INFO" doc:name="Logger" doc:id="c48c2e3a-e9fb-4165-b045-8b1be6933bc0" message="5"/>
+			<logger level="INFO" doc:name="Logger" doc:id="30e0fbe6-cf99-4744-9f76-f197d133e9dc" message="6"/>
+		</async>
+		<ee:transform doc:name="Transform Message" doc:id="1c656867-a8ce-484f-a6f3-e47e219b618d" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+"Order placed Successfully"]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:db="http://www.mulesoft.org/schema/mule/db"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="0e5bb496-edf3-48c7-a54a-da455ad0de4c" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<db:config name="Database_Config" doc:name="Database Config" doc:id="2f8668bf-5d4e-402e-bc4f-9cae23663949" >
+		<db:my-sql-connection host="localhost" port="3306" user="root" password="root" database="emp_db" />
+	</db:config>
+	<flow name="mule-flowsFlow" doc:id="f064c93e-c30d-45cd-9638-7b465185c8ac" >
+		<http:listener doc:name="Listener" doc:id="b1eeaba0-ead2-48d6-acc1-8241bfc3c1b0" config-ref="HTTP_Listener_config" path="/flows"/>
+		<flow-ref doc:name="Flow Reference" doc:id="74cf1012-e148-4f95-9802-5e37ccacd3f6" name="mule-flowsSub_Flow"/>
+		<ee:transform doc:name="Transform Message" doc:id="09ee1799-53c0-434a-ac3c-9dee5538e734" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/java
+---
+{
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<sub-flow name="mule-flowsSub_Flow" doc:id="19cb3a12-1d51-465e-9e45-e7d5d37c05a2" >
+		<logger level="INFO" doc:name="Logger" doc:id="defeb9a7-cff8-4026-a167-9f0fb9fa4634" />
+	</sub-flow>
+	<flow name="mule-flowsFlow1" doc:id="2f7b9abf-5adc-45c3-ac7f-177597ef80f5" >
+		<http:listener doc:name="Listener" doc:id="b25a8890-975a-4c17-82c8-b59cac3f53ce" config-ref="HTTP_Listener_config" path="/getmgr"/>
+		<flow-ref doc:name="Flow Reference" doc:id="a76538be-db9b-4af2-8e38-4ed14b191006" name="mule-flowsSub_Flow"/>
+		<ee:transform doc:name="Transform Message" doc:id="f26bedcf-5223-4dd0-bc44-7b65a342f9a1" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/java
+---
+{
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>
