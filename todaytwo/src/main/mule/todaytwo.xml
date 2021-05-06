@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="db188260-c165-46aa-a275-7e592dec18fb" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<flow name="todaytwoFlow" doc:id="9133d997-bbf6-4955-b29e-20f4658b2c06" >
+		<http:listener doc:name="Listener" doc:id="69af0fd3-1895-40c7-9401-f817efeddc62" config-ref="HTTP_Listener_config" path="/test"/>
+		<set-payload value='#["Success"]' doc:name="Set Payload" doc:id="b2be8596-6659-4d32-aac0-ee813683028e" />
+	</flow>
+</mule>
